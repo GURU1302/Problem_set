@@ -25,7 +25,7 @@ using namespace std;
 int MOD=1e9+7;      // Hardcoded, directly change from here for functions!
 
 
-int gcd(int a, int b){if (b == 0)return a;return gcd(b, a % b);} //__gcd
+
 void modadd(int &a , int b) {a=((a%MOD)+(b%MOD))%MOD;}
 void modsub(int &a , int b) {a=((a%MOD)-(b%MOD)+MOD)%MOD;}
 void modmul(int &a , int b) {a=((a%MOD)*(b%MOD))%MOD;}
@@ -41,19 +41,32 @@ template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a)
 void guru(){
     int n;
     cin>>n;
-    read(m);
+    readstr(f);
+    readstr(s);
+    vector<string> v;
+    v.pb(f);
+    v.pb(s);
 
-    int count = 0;
-    count+=n;
+    int r = 0,c = 0;
 
-    rep(b,2,m){
-        int num = (n+b)/(b*b);
-        count+= num;
+    while(r!=1 || c!=n-1){
+        if(c<n-1 && v[r][c+1] == '>') c+=2;
+        else if (r == 0 && v[r+1][c] == '>') {
+            r+=1;
+            c++;
+        }
+        else if(r == 1 && v[r-1][c] == '>'){
+            r--;
+            c++;
+        }
+        else{
+            cout<<"NO";
+            nl;
+            return;
+        }
     }
-
-     cout<<count;
-     nl;
-
+    cout<<"YES";
+    nl;
 }
 
 int32_t main()
