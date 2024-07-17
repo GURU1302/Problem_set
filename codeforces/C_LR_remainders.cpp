@@ -41,7 +41,39 @@ template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a)
 void guru(){
     int n;
     cin>>n;
-    
+    read(m);
+    vi a(n);
+    cin>>a;
+    readstr(s);
+    int i= 0;
+    int j = n-1;
+
+    vi rm;
+
+    fr(k,0,n){
+        if(s[k] == 'L'){
+            rm.pb(a[i]);
+            i++;
+        }
+        else{
+            rm.pb(a[j]);
+            j--;
+        }
+    }
+
+    int pro = 1;
+
+    vi  ans;
+
+    for(int k = n-1;k>=0;k--){
+        pro = (pro*(rm[k]%m))%m;
+        ans.pb(pro);
+    }
+
+    reverse(all(ans));
+
+    for(int it: ans) cout<<it<<" ";
+    nl;
 }
 
 int32_t main()
