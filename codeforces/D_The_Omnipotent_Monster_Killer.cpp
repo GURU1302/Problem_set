@@ -37,28 +37,50 @@ template<typename typC,typename typD> ostream &operator<<(ostream &cout,const ve
 template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 // ===================================END Of the input module ==========================================
 
+int mem(int s, int step, int par, vvi &adj, vvi &dp, int steps, vi &a){
+    //base case
+    int res = a[s-1]*step;
+    if(dp[s][step] !=-1) return dp[s][step];
+    for(int it : adj[s]){
+        if(it == par) continue;
+        int minVal = LLONG_MAX;
+        for(int st = 1;st<=steps;st++){
+            if(st!=step){
+                minVal = min(minVal,mem(it,st,s,adj,dp,steps,a));
+            }
+        }
+        res+=minVal;
+    }
+
+    return dp[s][step] = res;
+}
 
 void guru(){
     int n;
     cin>>n;
     
+    int steps = log2(n) +1;
     vi a(n);
     cin>>a;
 
-    vector<pair<int,int> > q(n-1);
+    vvi adj(n+1);
 
-    fr(i,0,n-1){
-        pair<int,int> p;
+    for(int i=0;i<n-1;i++){
         read(x);
         read(y);
-
-        p.first = x;
-        p.second = y;
-
-        q[i] = p;
+        adj[x].pb(y);
+        adj[y].pb(x);
     }
 
-    
+    vvi dp(n+1,vi(33,-1));
+    int ans = LLONG_MAX;
+
+    for(int i=1;i<=steps;i++){
+        ans = min(ans, mem(1,i,-1,adj,dp,steps,a));
+    }
+
+    cout<<ans;
+    nl;
 }
 
 int32_t main()
